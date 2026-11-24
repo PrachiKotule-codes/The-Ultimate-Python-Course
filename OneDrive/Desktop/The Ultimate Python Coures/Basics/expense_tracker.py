@@ -2,6 +2,7 @@
 # This program helps users record and manage daily expenses.
 
 expenses = []
+budget = 0
 
 # Function to get a valid expense amount
 def get_amount():
@@ -90,7 +91,7 @@ def category_summary():
     for category, total in totals.items():
         print(category, ":", "Rs.", total)
 
-# Function to edit an existing expense
+# Function to edit an expense
 def edit_expense():
     view_expenses()
 
@@ -106,25 +107,22 @@ def edit_expense():
 
         expense = expenses[number - 1]
 
-        # Update expense name
-        new_name = input("Enter new name (press Enter to keep current): ")
+        new_name = input("Enter new name (Enter to keep current): ")
         if new_name:
             expense["name"] = new_name
 
-        # Update expense amount
-        new_amount = input("Enter new amount (press Enter to keep current): ")
+        new_amount = input("Enter new amount (Enter to keep current): ")
         if new_amount:
             try:
                 amount = float(new_amount)
                 if amount > 0:
                     expense["amount"] = amount
                 else:
-                    print("Amount must be greater than zero. Keeping old amount.")
+                    print("Amount must be greater than zero.")
             except ValueError:
                 print("Invalid amount. Keeping old amount.")
 
-        # Update expense category
-        new_category = input("Enter new category (press Enter to keep current): ")
+        new_category = input("Enter new category (Enter to keep current): ")
         if new_category:
             expense["category"] = new_category
 
@@ -132,6 +130,45 @@ def edit_expense():
 
     except ValueError:
         print("Please enter a valid number.")
+
+# Function to set a budget
+def set_budget():
+    global budget
+
+    while True:
+        try:
+            amount = float(input("Enter your budget: "))
+
+            if amount <= 0:
+                print("Budget must be greater than zero.")
+                continue
+
+            budget = amount
+            print("Budget set successfully!")
+            break
+
+        except ValueError:
+            print("Please enter a valid amount.")
+
+# Function to check budget usage
+def check_budget():
+    if budget <= 0:
+        print("Please set your budget first.")
+        return
+
+    total = sum(expense["amount"] for expense in expenses)
+
+    print("\\nBudget:", budget)
+    print("Total spent:", total)
+    print("Remaining budget:", budget - total)
+
+    # Check whether expenses have exceeded the budget
+    if total > budget:
+        print("Warning: You have exceeded your budget!")
+    elif total == budget:
+        print("You have reached your budget limit.")
+    else:
+        print("You are within your budget.")
 
 # Main menu
 while True:
@@ -142,7 +179,9 @@ while True:
     print("4. Delete Expense")
     print("5. Category Summary")
     print("6. Edit Expense")
-    print("7. Exit")
+    print("7. Set Budget")
+    print("8. Check Budget")
+    print("9. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -159,6 +198,10 @@ while True:
     elif choice == "6":
         edit_expense()
     elif choice == "7":
+        set_budget()
+    elif choice == "8":
+        check_budget()
+    elif choice == "9":
         print("Thank you for using Expense Tracker!")
         break
     else:
