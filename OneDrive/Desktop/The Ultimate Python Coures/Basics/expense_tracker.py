@@ -9,7 +9,6 @@ def get_amount():
         try:
             amount = float(input("Enter expense amount: "))
 
-            # Expenses should not be negative or zero
             if amount <= 0:
                 print("Amount must be greater than zero.")
                 continue
@@ -25,7 +24,6 @@ def add_expense():
     amount = get_amount()
     category = input("Enter category (Food/Travel/Shopping/Other): ")
 
-    # Store expense information
     expense = {
         "name": name,
         "amount": amount,
@@ -43,9 +41,9 @@ def view_expenses():
 
     print("\\nYour Expenses:")
 
-    for expense in expenses:
+    for index, expense in enumerate(expenses, start=1):
         print(
-            expense["name"],
+            index, ".", expense["name"],
             "|", expense["category"],
             "| Rs.", expense["amount"]
         )
@@ -59,13 +57,34 @@ def calculate_total():
 
     print("Total expenses: Rs.", total)
 
+# Function to delete an expense
+def delete_expense():
+    view_expenses()
+
+    if not expenses:
+        return
+
+    try:
+        number = int(input("Enter expense number to delete: "))
+
+        # Check whether the selected number is valid
+        if 1 <= number <= len(expenses):
+            removed = expenses.pop(number - 1)
+            print(removed["name"], "expense deleted successfully!")
+        else:
+            print("Invalid expense number.")
+
+    except ValueError:
+        print("Please enter a valid number.")
+
 # Main menu
 while True:
     print("\\n===== DAILY EXPENSE TRACKER =====")
     print("1. Add Expense")
     print("2. View Expenses")
     print("3. Calculate Total")
-    print("4. Exit")
+    print("4. Delete Expense")
+    print("5. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -76,6 +95,8 @@ while True:
     elif choice == "3":
         calculate_total()
     elif choice == "4":
+        delete_expense()
+    elif choice == "5":
         print("Thank you for using Expense Tracker!")
         break
     else:
