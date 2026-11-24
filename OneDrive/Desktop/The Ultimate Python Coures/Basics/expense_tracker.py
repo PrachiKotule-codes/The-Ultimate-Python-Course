@@ -1,46 +1,49 @@
 # Daily Expense Tracker
 # This program helps users record and manage daily expenses.
 
-# Store all expenses in a list
 expenses = []
 
 # Function to add a new expense
 def add_expense():
     name = input("Enter expense name: ")
     amount = float(input("Enter expense amount: "))
+    category = input("Enter category (Food/Travel/Shopping/Other): ")
 
-    # Store expense details in a dictionary
-    expense = {"name": name, "amount": amount}
+    # Store all expense details
+    expense = {
+        "name": name,
+        "amount": amount,
+        "category": category
+    }
 
-    # Add the expense to the list
     expenses.append(expense)
-
     print("Expense added successfully!")
 
-# Function to display all expenses
+# Function to display expenses
 def view_expenses():
-    # Check if the list is empty
     if not expenses:
         print("No expenses recorded yet.")
         return
 
     print("\\nYour Expenses:")
 
-    # Display each expense
     for expense in expenses:
-        print(expense["name"], "-", expense["amount"])
+        print(
+            expense["name"],
+            "|", expense["category"],
+            "| Rs.", expense["amount"]
+        )
 
 # Function to calculate total expenses
 def calculate_total():
     total = 0
 
-    # Add every expense amount
     for expense in expenses:
         total += expense["amount"]
 
-    print("Total expenses:", total)
+    print("Total expenses: Rs.", total)
 
-# Main menu of the program
+# Main menu
 while True:
     print("\\n===== DAILY EXPENSE TRACKER =====")
     print("1. Add Expense")
@@ -50,7 +53,6 @@ while True:
 
     choice = input("Enter your choice: ")
 
-    # Handle menu selection
     if choice == "1":
         add_expense()
     elif choice == "2":
