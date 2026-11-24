@@ -65,7 +65,6 @@ def delete_expense():
             print(removed["name"], "expense deleted successfully!")
         else:
             print("Invalid expense number.")
-
     except ValueError:
         print("Please enter a valid number.")
 
@@ -77,7 +76,6 @@ def category_summary():
 
     totals = {}
 
-    # Calculate total for each category
     for expense in expenses:
         category = expense["category"]
         amount = expense["amount"]
@@ -89,9 +87,51 @@ def category_summary():
 
     print("\\nCategory-wise Summary:")
 
-    # Display category totals
     for category, total in totals.items():
         print(category, ":", "Rs.", total)
+
+# Function to edit an existing expense
+def edit_expense():
+    view_expenses()
+
+    if not expenses:
+        return
+
+    try:
+        number = int(input("Enter expense number to edit: "))
+
+        if not 1 <= number <= len(expenses):
+            print("Invalid expense number.")
+            return
+
+        expense = expenses[number - 1]
+
+        # Update expense name
+        new_name = input("Enter new name (press Enter to keep current): ")
+        if new_name:
+            expense["name"] = new_name
+
+        # Update expense amount
+        new_amount = input("Enter new amount (press Enter to keep current): ")
+        if new_amount:
+            try:
+                amount = float(new_amount)
+                if amount > 0:
+                    expense["amount"] = amount
+                else:
+                    print("Amount must be greater than zero. Keeping old amount.")
+            except ValueError:
+                print("Invalid amount. Keeping old amount.")
+
+        # Update expense category
+        new_category = input("Enter new category (press Enter to keep current): ")
+        if new_category:
+            expense["category"] = new_category
+
+        print("Expense updated successfully!")
+
+    except ValueError:
+        print("Please enter a valid number.")
 
 # Main menu
 while True:
@@ -101,7 +141,8 @@ while True:
     print("3. Calculate Total")
     print("4. Delete Expense")
     print("5. Category Summary")
-    print("6. Exit")
+    print("6. Edit Expense")
+    print("7. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -116,6 +157,8 @@ while True:
     elif choice == "5":
         category_summary()
     elif choice == "6":
+        edit_expense()
+    elif choice == "7":
         print("Thank you for using Expense Tracker!")
         break
     else:
