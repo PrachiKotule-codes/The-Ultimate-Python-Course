@@ -8,13 +8,10 @@ def get_amount():
     while True:
         try:
             amount = float(input("Enter expense amount: "))
-
             if amount <= 0:
                 print("Amount must be greater than zero.")
                 continue
-
             return amount
-
         except ValueError:
             print("Please enter a valid numeric amount.")
 
@@ -50,11 +47,7 @@ def view_expenses():
 
 # Function to calculate total expenses
 def calculate_total():
-    total = 0
-
-    for expense in expenses:
-        total += expense["amount"]
-
+    total = sum(expense["amount"] for expense in expenses)
     print("Total expenses: Rs.", total)
 
 # Function to delete an expense
@@ -67,7 +60,6 @@ def delete_expense():
     try:
         number = int(input("Enter expense number to delete: "))
 
-        # Check whether the selected number is valid
         if 1 <= number <= len(expenses):
             removed = expenses.pop(number - 1)
             print(removed["name"], "expense deleted successfully!")
@@ -77,6 +69,30 @@ def delete_expense():
     except ValueError:
         print("Please enter a valid number.")
 
+# Function to display category-wise totals
+def category_summary():
+    if not expenses:
+        print("No expenses recorded yet.")
+        return
+
+    totals = {}
+
+    # Calculate total for each category
+    for expense in expenses:
+        category = expense["category"]
+        amount = expense["amount"]
+
+        if category in totals:
+            totals[category] += amount
+        else:
+            totals[category] = amount
+
+    print("\\nCategory-wise Summary:")
+
+    # Display category totals
+    for category, total in totals.items():
+        print(category, ":", "Rs.", total)
+
 # Main menu
 while True:
     print("\\n===== DAILY EXPENSE TRACKER =====")
@@ -84,7 +100,8 @@ while True:
     print("2. View Expenses")
     print("3. Calculate Total")
     print("4. Delete Expense")
-    print("5. Exit")
+    print("5. Category Summary")
+    print("6. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -97,6 +114,8 @@ while True:
     elif choice == "4":
         delete_expense()
     elif choice == "5":
+        category_summary()
+    elif choice == "6":
         print("Thank you for using Expense Tracker!")
         break
     else:
