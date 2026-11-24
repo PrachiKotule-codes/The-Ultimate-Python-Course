@@ -3,13 +3,29 @@
 
 expenses = []
 
+# Function to get a valid expense amount
+def get_amount():
+    while True:
+        try:
+            amount = float(input("Enter expense amount: "))
+
+            # Expenses should not be negative or zero
+            if amount <= 0:
+                print("Amount must be greater than zero.")
+                continue
+
+            return amount
+
+        except ValueError:
+            print("Please enter a valid numeric amount.")
+
 # Function to add a new expense
 def add_expense():
     name = input("Enter expense name: ")
-    amount = float(input("Enter expense amount: "))
+    amount = get_amount()
     category = input("Enter category (Food/Travel/Shopping/Other): ")
 
-    # Store all expense details
+    # Store expense information
     expense = {
         "name": name,
         "amount": amount,
@@ -19,7 +35,7 @@ def add_expense():
     expenses.append(expense)
     print("Expense added successfully!")
 
-# Function to display expenses
+# Function to display all expenses
 def view_expenses():
     if not expenses:
         print("No expenses recorded yet.")
