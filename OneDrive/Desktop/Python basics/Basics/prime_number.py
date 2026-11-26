@@ -9,3 +9,5 @@ else:
         if num % i == 0:
             print("Not a prime number")
             break
+    else:
+        print("Prime number")
