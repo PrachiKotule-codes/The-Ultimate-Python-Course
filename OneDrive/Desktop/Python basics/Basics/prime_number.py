@@ -2,4 +2,7 @@
 
 num = int(input("Enter a number: "))
 
-print("Number entered:", num)
+if num <= 1:
+    print("Not a prime number")
+else:
+    print("Checking the number")
