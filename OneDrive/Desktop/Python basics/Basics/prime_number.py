@@ -6,4 +6,5 @@ if num <= 1:
     print("Not a prime number")
 else:
     for i in range(2, num):
-        print("Checking divisor:", i)
+        if num % i == 0:
+            print("Not a prime number")
