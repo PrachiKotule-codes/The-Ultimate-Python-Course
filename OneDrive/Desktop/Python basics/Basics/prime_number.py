@@ -4,12 +4,12 @@ num = int(input("Enter a number: "))
 
 # Numbers less than or equal to 1 are not prime
 if num <= 1:
-    print("Not a prime number")
+    print("The number is not prime")
 else:
-    # Check divisibility from 2 to num - 1
+    # Check whether the number has any divisor
     for i in range(2, num):
         if num % i == 0:
-            print("Not a prime number")
+            print("The number is not prime")
             break
     else:
-        print("Prime number")
+        print("The number is prime")
